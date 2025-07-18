@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WROSH - The Future of Influencer Marketing</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/recharts@2.1.12/umd/Recharts.min.js"></script>
+    <script src="https://unpkg.com/lucide-static@latest/umd/lucide.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #111827, #000000, #111827);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, #111827, #000000);
+            transform-origin: left;
+            z-index: 50;
+        }
+        .particles-canvas {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.1;
+            width: 100%;
+            height: 100%;
+            mix-blend-mode: multiply;
+        }
+        .morphing-bg {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.02) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
+            animation: morphing-bg 30s linear infinite;
+        }
+        @keyframes morphing-bg {
+            0% {
+                background: radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.02) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
+            }
+            33% {
+                background: radial-gradient(circle at 80% 50%, rgba(0, 0, 0, 0.01) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
+            }
+            66% {
+                background: radial-gradient(circle at 40% 20%, rgba(0, 0, 0, 0.015) 0%, transparent 50%), radial-gradient(circle at 60% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
+            }
+            100% {
+                background: radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.02) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
+            }
+        }
+        .floating-shape {
+            position: absolute;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+            opacity: 0;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-150px) rotate(180deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-white text-black relative overflow-hidden">
+    <!-- Advanced Background Effects -->
+    <div class="morphing-bg"></div>
+    <canvas class="particles-canvas"></canvas>
+    
+    <!-- Floating Shapes -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="floating-shape" style="left: 10%; top: 20%; animation-delay: 2s;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300/30">
+                <circle cx="12" cy="12" r="10"></circle>
+            </svg>
+        </div>
+        <div class="floating-shape" style="left: 80%; top: 30%; animation-delay: 5s;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400/20">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            </svg>
+        </div>
+        <div class="floating-shape" style="left: 30%; top: 70%; animation-delay: 8s;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-300/25">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress" style="transform: scaleX(0);"></div>
+
+    <!-- Premium Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-2xl border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3 lg:space-x-4">
+                    <div class="w-10 h-10 lg:w-12 lg:h-12 bg-black rounded-2xl flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 lg:w-7 lg:h-7 text-white">
+                            <path d="M12 3a3 3 0 0 0-3 3c0 1.29 1 2.44 2.29 2.82a3.94 3.94 0 0 0-2.57 2.63 3 3 0 0 0-1.72-1.72 3 3 0 0 0 0 5.72 3 3 0 0 0 1.72-1.72 3.94 3.94 0 0 0 2.57 2.63c-1.29.38-2.29 1.53-2.29 2.82a3 3 0 0 0 6 0c0-1.29-1-2.44-2.29-2.82a3.94 3.94 0 0 0 2.57-2.63 3 3 0 0 0 1.72 1.72 3 3 0 0 0 0-5.72 3 3 0 0 0-1.72 1.72 3.94 3.94 0 0 0-2.57-2.63C13 8.44 14 7.29 14 6a3 3 0 0 0-3-3z"></path>
+                        </svg>
+                    </div>
+                    <span class="text-2xl lg:text-3xl font-light tracking-tight">WROSH</span>
+                </div>
+
+                <nav class="hidden md:flex items-center space-x-8 lg:space-x-12">
+                    <a href="#niches" class="text-base lg:text-lg font-light text-gray-600 hover:text-black transition-colors duration-300">Niches</a>
+                    <a href="#analytics" class="text-base lg:text-lg font-light text-gray-600 hover:text-black transition-colors duration-300">Analytics</a>
+                    <a href="#features" class="text-base lg:text-lg font-light text-gray-600 hover:text-black transition-colors duration-300">Features</a>
+                    <a href="#pricing" class="text-base lg:text-lg font-light text-gray-600 hover:text-black transition-colors duration-300">Pricing</a>
+                    <a href="#contact" class="text-base lg:text-lg font-light text-gray-600 hover:text-black transition-colors duration-300">Contact</a>
+                </nav>
+
+                <div class="flex items-center space-x-4 lg:space-x-6">
+                    <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 font-light text-base">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Join as Influencer
+                        </button>
+                        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 font-light text-base">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 mr-2">
+                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                                <rect width="14" height="14" x="2" y="2" rx="2" ry="2"></rect>
+                            </svg>
+                            Join as Brand
+                        </button>
+                    </div>
+
+                    <button class="md:hidden w-10 h-10 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-10 w-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                            <line x1="4" y1="6" x2="20" y2="6"></line>
+                            <line x1="4" y1="18" x2="20" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pt-20 lg:pt-24">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
+            <div class="max-w-7xl mx-auto text-center space-y-12 lg:space-y-16">
+                <div class="space-y-6 lg:space-y-8">
+                    <h1 class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light tracking-tight leading-[0.9]">
+                        The Future of<br>
+                        <span class="font-black gradient-text">Influencer Marketing</span>
+                    </h1>
+
+                    <div class="space-y-4 lg:space-y-6">
+                        <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-500 max-w-5xl mx-auto leading-relaxed font-light">
+                            Connect with authentic creators across 15+ niches.<br class="hidden md:block">
+                            Zero commission fees. AI-powered matching. Real-time analytics.
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-base lg:text-lg text-gray-600">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 lg:w-6 lg:h-6">
+                                    <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path>
+                                    <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path>
+                                    <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"></path>
+                                    <path d="M17.599 6.5a3 3 0 0 1 .399-1.375"></path>
+                                    <path d="M6.003 5.125A3 3 0 0 1 6.401 6.5"></path>
+                                    <path d="M3.477 10.896a4 4 0 0 1 .585-.396"></path>
+                                    <path d="M19.938 10.5a4 4 0 0 1 .585.396"></path>
+                                    <path d="M6 18a4 4 0 0 1-1.967-.516"></path>
+                                    <path d="M19.967 17.484A4 4 0 0 1 18 18"></path>
+                                </svg>
+                                <span class="font-medium">Intelligence Hub:</span>
+                            </div>
+                            <span class="font-light text-center sm:text-left">
+                                Real-time insights and predictive analytics powered by advanced AI algorithms
+                            </span>
+                        </div>
+
+                        <!-- Hero CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-black hover:bg-gray-800 text-white h-11 px-8 py-4 rounded-xl text-lg font-medium">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                Join as Influencer
+                            </button>
+
+                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 py-4 rounded-xl text-lg font-medium border-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 mr-2">
+                                    <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                                    <rect width="14" height="14" x="2" y="2" rx="2" ry="2"></rect>
+                                </svg>
+                                Join as Brand
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Metrics Section -->
+        <section class="py-16 lg:py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center space-y-4 lg:space-y-6 mb-12 lg:mb-16">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight">
+                        Platform <span class="font-black text-gray-900">Metrics</span>
+                    </h2>
+                    <p class="text-lg lg:text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-light">
+                        Real-time performance indicators showcasing our platform's growth and creator success
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                    <!-- Active Creators Card -->
+                    <div class="relative overflow-hidden rounded-2xl lg:rounded-3xl bg-emerald-50 p-6 lg:p-8 hover:shadow-xl transition-all duration-500">
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4 lg:mb-6">
+                                <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 lg:w-8 lg:h-8 text-white">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs lg:text-sm font-medium text-emerald-600 bg-emerald-100 px-2 lg:px-3 py-1 rounded-full">
+                                        +12% this month
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 lg:space-y-3">
+                                <div class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-gray-900">
+                                    50,000+
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-lg lg:text-xl font-medium text-gray-900">Active Creators</div>
+                                    <div class="text-gray-600 text-sm">Verified influencers</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Background decoration -->
+                        <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 opacity-10">
+                            <div class="w-full h-full rounded-full bg-gradient-to-br from-emerald-500 to-emerald-600 transform translate-x-6 lg:translate-x-8 -translate-y-6 lg:-translate-y-8"></div>
+                        </div>
+                    </div>
+
+                    <!-- Successful Campaigns Card -->
+                    <div class="relative overflow-hidden rounded-2xl lg:rounded-3xl bg-blue-50 p-6 lg:p-8 hover:shadow-xl transition-all duration-500">
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4 lg:mb-6">
+                                <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 lg:w-8 lg:h-8 text-white">
+                                        <line x1="12" y1="20" x2="12" y2="10"></line>
+                                        <line x1="18" y1="20" x2="18" y2="4"></line>
+                                        <line x1="6" y1="20" x2="6" y2="16"></line>
+                                    </svg>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs lg:text-sm font-medium text-blue-600 bg-blue-100 px-2 lg:px-3 py-1 rounded-full">
+                                        +8% this month
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 lg:space-y-3">
+                                <div class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-gray-900">
+                                    25,000+
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-lg lg:text-xl font-medium text-gray-900">Successful Campaigns</div>
+                                    <div class="text-gray-600 text-sm">Completed projects</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Background decoration -->
+                        <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 opacity-10">
+                            <div class="w-full h-full rounded-full bg-gradient-to-br from-blue-500 to-blue-600 transform translate-x-6 lg:translate-x-8 -translate-y-6 lg:-translate-y-8"></div>
+                        </div>
+                    </div>
+
+                    <!-- Total Revenue Generated Card -->
+                    <div class="relative overflow-hidden rounded-2xl lg:rounded-3xl bg-purple-50 p-6 lg:p-8 hover:shadow-xl transition-all duration-500">
+                        <div class="relative z-10">
+                            <div class="flex items-center justify-between mb-4 lg:mb-6">
+                                <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 lg:w-8 lg:h-8 text-white">
+                                        <line x1="12" y1="1" x2="12" y2="23"></line>
+                                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs lg:text-sm font-medium text-purple-600 bg-purple-100 px-2 lg:px-3 py-1 rounded-full">
+                                        +25% this quarter
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 lg:space-y-3">
+                                <div class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-gray-900">
+                                    $15M+
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-lg lg:text-xl font-medium text-gray-900">Total Revenue Generated</div>
+                                    <div class="text-gray-600 text-sm">Creator earnings</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Background decoration -->
+                        <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 opacity-10">
+                            <div class="w-full h-full rounded-full bg-gradient-to-br from-purple-500 to-purple-600 transform translate-x-6 lg:translate-x-8 -translate-y-6 lg:-translate-y-8"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Revolutionary Niches Section -->
+        <section id="niches" class="py-16 lg:py-32 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center space-y-6 lg:space-y-8 mb-16 lg:mb-24">
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight">
+                        Explore <span class="font-black text-gray-900">Niches</span>
+                    </h2>
+                    <p class="text-lg lg:text-xl text-gray-500 max-w-4xl mx-auto leading-relaxed font-light">
+                        Discover the perfect creators for your brand across 15+ specialized niches. Each with unique audiences,
+                        engagement patterns, and growth opportunities.
+                    </p>
+                </div>
+
+                <!-- Niches Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <!-- Fashion & Beauty Niche Card -->
+                    <div class="group cursor-pointer">
+                        <div class="h-full bg-white border-0 shadow-sm hover:shadow-xl transition-all duration-700 overflow-hidden rounded-lg">
+                            <div class="pb-4 lg:pb-6 pt-6 lg:pt-8 px-6 lg:px-8">
+                                <!-- Header with icon and engagement -->
+                                <div class="flex items-start justify-between mb-4 lg:mb-6">
+                                    <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-gradient-to-br from-gray-800 to-black flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 lg:w-8 lg:h-8 text-white">
+                                            <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xl lg:text-2xl font-light text-black">3.2%</div>
+                                        <div class="text-xs text-gray-400 uppercase tracking-wider">Engagement</div>
+                                    </div>
+                                </div>
+
+                                <h3 class="text-lg lg:text-xl font-light mb-2 lg:mb-3 group-hover:text-gray-700 transition-colors">Fashion & Beauty</h3>
+                                <p class="text-gray-500 leading-relaxed text-sm font-light line-clamp-3">
+                                    Connect with fashion influencers, beauty gurus, and style enthusiasts who showcase the latest trends, makeup tutorials, and fashion hauls.
+                                </p>
+                            </div>
+
+                            <div class="space-y-4 lg:space-y-6 pb-6 lg:pb-8 px-6 lg:px-8">
+                                <!-- Key Metrics Grid -->
+                                <div class="grid grid-cols-3 gap-3 lg:gap-4">
+                                    <div class="text-center p-2 lg:p-3 bg-gray-50 rounded-lg lg:rounded-xl">
+                                        <div class="text-base lg:text-lg font-light text-black">2.5M</div>
+                                        <div class="text-xs text-gray-400 uppercase tracking-wider">Reach</div>
+                                    </div>
+                                    <div class="text-center p-2 lg:p-3 bg-emerald-50 rounded-lg lg:rounded-xl">
+                                        <div class="text-base lg:text-lg font-light text-emerald-600">+8.5%</div>
+                                        <div class="text-xs text-gray-400 uppercase tracking-wider">Growth</div>
+                                    </div>
+                                    <div class="text-center p-2 lg:p-3 bg-blue-50 rounded-lg lg:rounded-xl">
+                                        <div class="text-base lg:text-lg font-light text-blue-600">3</div>
+                                        <div class="text-xs text-gray-400 uppercase tracking-wider">Platforms</div>
+                                    </div>
+                                </div>
+
+                                <!-- Demographics Visualization -->
+                                <div class="space-y-2 lg:space-y-3">
+                                    <div class="text-sm font-medium text-gray-700">Audience Demographics</div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600">Female</span>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-16 lg:w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-pink-400 rounded-full transition-all duration-1000" style="width: 75%"></div>
+                                                </div>
+                                                <span class="text-sm font-medium text-gray-900 w-8">75%</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm text-gray-600">Male</span>
+                                            <div class="flex items-center space-x-2">
+                                                <div class="w-16 lg:w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div class="h-full bg-blue-400 rounded-full transition-all duration-1000" style="width: 20%"></div>
+                                                </div>
+                                                <span class="text-sm font-medium text-gray-900 w-8">20%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Top Platforms -->
+                                <div class="space-y-2 lg:space-y-3">
+                                    <div class="text-sm font-medium text-gray-700">Top Platforms</div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="px-2 lg:px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-black text-white">Instagram</span>
+                                        <span class="px-2 lg:px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-gray-800 text-white">YouTube</span>
+                                        <span class="px-2 lg:px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 bg-gray-100 text-gray-700">Pinterest</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Niche Card -->
+                    <div class="group cursor-pointer">
+                        <div class="h-full bg-white border-0 shadow-sm hover:shadow-xl transition-all duration-700 overflow-hidden rounded-lg">
+                            <div class="pb-4 lg:pb-6 pt-6 lg:pt-8 px-6 lg:px-8">
+                                <!-- Header with icon and engagement -->
+                                <div class="flex items-start justify-between mb-4 lg:mb-6">
+                                    <div class="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-gradient-to-br from-gray-
